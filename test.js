@@ -1,24 +1,42 @@
-qiniu = {
+const qiniu = {
+  b: 'b',
   name: {
     first: 'Qi',
     last: 'Niu',
+    a: {
+      d: {
+        e: 'e',
+      },
+      f: {
+        g: 'g',
+        h: {
+          i: 'i',
+        }
+      }
+    },
   }
 }
 
 function getDepth(obj) {
-  return getDepthTemp(obj, 1)
+  return getDepthHelper(obj, 1)
 }
 
-function getDepthTemp(obj, depth) {
-  // let depthList = []
+function getDepthHelper(obj, depth) {
+  let depthList = []
   for (let key in obj) {
     let value = obj[key]
     if (typeof value === 'object') {
-      depth += 1
-      return getDepthTemp(value, depth)
+      let newDepth = depth + 1
+      depthList.push(getDepthHelper(value, newDepth))
     }
   }
-  return depth
+  let maxDepth = depth
+  for (let d of depthList) {
+    if (d > maxDepth) {
+      maxDepth = d
+    }
+  }
+  return maxDepth
 }
 
 const result = getDepth(qiniu)
